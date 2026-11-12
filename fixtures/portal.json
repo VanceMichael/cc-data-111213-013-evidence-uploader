@@ -1,0 +1,9 @@
+{
+  "title": "资料上传控件的可续交付自动化",
+  "local": true,
+  "roles": [
+    "人工使用者"
+  ],
+  "entry": "/",
+  "scenario": "evidence-uploader"
+}
