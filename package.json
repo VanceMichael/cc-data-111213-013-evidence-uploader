@@ -12,7 +12,7 @@
     "cli": "node src/cli.js",
     "demo": "node src/cli.js demo",
     "fixtures": "node scripts/create-fixtures.js",
-    "check": "node --check src/cli.js && node --check src/domain.js"
+    "check": "node --check src/cli.js && node --check src/domain.js && node --check src/assistant.js && node --check src/portal.js"
   },
   "dependencies": {
     "playwright": "1.56.1"

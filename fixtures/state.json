@@ -1,3 +1,12 @@
 {
-  "uploads": []
+  "uploads": [],
+  "materials": [],
+  "controls": {
+    "scanDelayMs": null,
+    "chunkTtlMs": 0,
+    "sessionTtlMs": 60000,
+    "chunkDelayMs": 0,
+    "revokeNext": false,
+    "rejectMarker": "REJECT-ME"
+  }
 }

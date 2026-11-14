@@ -30,10 +30,31 @@ npm run cli -- list .local/archive
 
 `capture` 只表示来源字节已保存，不声称领域流程已自动完成。已有查看功能只展示现有资料，不替代业务接纳判断。`scripts/create-fixtures.js` 用于维护者重建合成资料；运行与测试直接读取已提交的资料。
 
+## 浏览器上传助手
+
+`src/assistant.js` 通过真实页面操作交付资料：走文件选择框与页面的上传、续传、刷新、读取按钮，不直接调用门户内部上传接口。完成标准不是浏览器把字节发完，而是门户已接纳且业务记录能按摘要读回核验。
+
+材料以内容摘要与业务用途辨认；临时 upload ID 不进入清单，长期标识是接纳后业务记录给出的 materialId。助手处理的情形：
+
+- 本地文件在等待期间被替换：旧内容标记 `replaced` 并与新内容分开辨认，不混用字节。
+- 部分分片过期、会话被服务端撤销或过期：续传补齐或重建会话，恢复后不产生重复业务附件。
+- 服务端扫描拒绝：清单留痕原因并转人工，不靠改文件后缀重提（门户按内容识别类型，改名无效）。
+- 人工取消：留痕且不自动重提。
+- 浏览器重新打开：`reconcile()` 按已接纳、仍隔离、可续传分类后继续。
+
+清单（manifest）逐条记录：`status` 为最终归属，`materialId` 为业务记录 ID，`reason` 为拒绝原因，`manual` 为可人工处理事项，`history` 为过程。
+
+```bash
+npm run cli -- assist --portal http://127.0.0.1:4173 --manifest .local/manifest.json --purpose 资质核验 fixtures/certificate.txt
+```
+
+门户演练开关（POST `/api/control`，仅接受既有键）：`scanDelayMs` 拖延隔离区扫描、`revokeNext` 撤销下一条上传、`chunkTtlMs` 分片过期、`sessionTtlMs` 会话有效期、`chunkDelayMs` 分片响应延迟、`rejectMarker` 扫描拒绝标记。选文件后页面会显示服务端按内容识别的类型与摘要；接纳后的资料可在页面"业务记录"区读回。
+
 ## 目录约定
 
 - `src/domain.js`：现有领域读取和查看接口。
 - `src/archive.js`：内容对象、来源回执与完整性检查。
+- `src/assistant.js`：浏览器上传助手，按业务记录读回确认交付。
 - `fixtures/`：本地资料与领域配置。
 - `test/`：已有行为的运行验证，使用独立临时目录。
 
